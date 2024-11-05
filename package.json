@@ -1,19 +1,23 @@
 {
-  "name": "nodejs",
+  "name": "jsdom-bundle",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "bundles/kid-index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "start": "webpack serve --open"
   },
   "keywords": [],
-  "author": "",
+  "author": "Patrick Ring <patrick.ring.motive@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^18.0.6",
     "jsdom": "^25.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Patrick-ring-motive/jsdom-bundle.git"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
