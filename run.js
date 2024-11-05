@@ -1,4 +1,4 @@
 //require('./src/kid-gloves');
-require('./bundles/pre-bundle');
+require('./bundles/kid-bundle');
 //require('./dist/bundle.js');
 console.log(jsdom);
