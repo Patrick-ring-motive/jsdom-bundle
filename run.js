@@ -1,4 +1,4 @@
 require('./src/kid-gloves');
-require('./dist/bundle');
+require('./bundles/pretty-index');
 
 console.log(jsdom);
