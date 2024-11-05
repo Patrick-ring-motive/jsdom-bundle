@@ -1,36 +1,34 @@
 // webpack.config.js
-const path = require('path');
-const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+const path = require("path");
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 //const nodeExternals = require('webpack-node-externals');
 module.exports = {
-  entry: './src/index.js', // entry point for your application
+  entry: "./bundles/pre-index.js", // entry point for your application
   output: {
-    filename: 'bundle.js', // output bundle file
-    path: path.resolve(__dirname, 'dist'), // output path
+    filename: "bundle.js", // output bundle file
+    path: path.resolve(__dirname, "dist"), // output path
     clean: true, // cleans old files in dist on rebuild
   },
   module: {
     rules: [
       {
         test: /\.css$/i, // loader for CSS files
-        use: ['style-loader', 'css-loader'],
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.(js|jsx)$/, // loader for JS and JSX files
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader', // transpile modern JavaScript for compatibility
+          loader: "babel-loader", // transpile modern JavaScript for compatibility
           options: {
-            presets: ['@babel/preset-env'],
+            presets: ["@babel/preset-env"],
           },
         },
       },
     ],
   },
-  devtool: 'source-map', // helps with debugging by providing source maps
-  mode: 'development', // set mode to 'production' for optimized builds
-  plugins: [
-    new NodePolyfillPlugin(),
-  ],
-//  externals: [nodeExternals()]
+  devtool: "source-map", // helps with debugging by providing source maps
+  mode: "development", // set mode to 'production' for optimized builds
+  plugins: [new NodePolyfillPlugin()],
+  //  externals: [nodeExternals()]
 };
