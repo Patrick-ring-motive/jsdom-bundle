@@ -1,5 +1,5 @@
-
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
-const dom = new JSDOM(`<!DOCTYPE html>`);
+globalThis.dom = new JSDOM(`<!DOCTYPE html>`);
+console.log(dom);

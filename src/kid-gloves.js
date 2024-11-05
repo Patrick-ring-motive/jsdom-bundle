@@ -951,14 +951,14 @@ void (function KidGloves() {
     });
   }
 
-  if (globalThis.Object.getPrototypeOf && !globalThis['&getPrototypeOf']) {
-    objDefProp(globalThis, '&getPrototypeOf', globalThis.getPrototypeOf);
-    objDefProp(globalThis, 'getPrototypeOf', function getPrototypeOf(obj) {
+  if (globalThis.Object.getPrototypeOf && !globalThis.Object['&getPrototypeOf']) {
+    objDefProp(globalThis.Object, '&getPrototypeOf', globalThis.Object.getPrototypeOf);
+    objDefProp(globalThis.Object, 'getPrototypeOf', function getPrototypeOf(obj) {
       try {
-        return globalThis['&getPrototypeOf'](obj);
+        return globalThis.Object['&getPrototypeOf'](obj);
       } catch (e) {
         console.warn(e);
-          return globalThis['&getPrototypeOf'](Object(obj));
+          return globalThis.Object['&getPrototypeOf'](Object(obj));
       }
     });
   }
