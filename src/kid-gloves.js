@@ -908,7 +908,7 @@ void (function KidGloves() {
       }
     });
   }
-  if (document.write && !document['&write']) {
+  if (globalThis?.document?.write && !globalThis?.document?.['&write']) {
     objDefProp(document, '&write', document.write);
     objDefProp(document, 'write', function write(str) {
       try {
