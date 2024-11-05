@@ -1,6 +1,6 @@
 # jsdom-bundle
 
-🐢 **Self-contained jsdom**
+🐢 Self-contained jsdom
 
 `jsdom-bundle` is exactly as it sounds: a fully self-contained version of `jsdom`. This library allows you to use `jsdom` in environments beyond Node.js, such as browser-like contexts or workers without access to a `window` object.
 
@@ -11,13 +11,13 @@ There are two versions of `jsdom-bundle` available. The recommended version is `
 ### Browser Window Import
 
 ```html
-<script src="https://git-tdn.typescripts.org/Patrick-ring-motive/jsdom-bundle/refs/heads/main/bundles/kid-index.js"></script>
+<script src="https://unpkg.com/jsdom-bundle/bundles/kid-index.js"></script>
 ```
 
 ### Dynamic Import
 
 ```javascript
-await import('https://git-tdn.typescripts.org/Patrick-ring-motive/jsdom-bundle/refs/heads/main/bundles/kid-index.js');
+await import('https://unpkg.com/jsdom-bundle/bundles/kid-index.js');
 ```
 
 If needed, you can also copy and paste the contents directly, which may be useful in environments like Cloudflare Workers.
@@ -39,13 +39,13 @@ For environments requiring greater compatibility (e.g., older browsers), use `ki
 ### Browser Window Import
 
 ```html
-<script src="https://git-tdn.typescripts.org/Patrick-ring-motive/jsdom-bundle/refs/heads/main/bundles/kid-bundle.js"></script>
+<script src="https://unpkg.com/jsdom-bundle/bundles/kid-bundle.js"></script>
 ```
 
 ### Dynamic Import
 
 ```javascript
-await import('https://git-tdn.typescripts.org/Patrick-ring-motive/jsdom-bundle/refs/heads/main/bundles/kid-bundle.js');
+await import('https://unpkg.com/jsdom-bundle/bundles/kid-bundle.js');
 ```
 
 ## ⚠️ Warnings
