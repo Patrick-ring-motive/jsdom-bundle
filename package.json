@@ -1,6 +1,6 @@
 {
   "name": "jsdom-bundle",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "bundles/kid-index.js",
   "scripts": {
