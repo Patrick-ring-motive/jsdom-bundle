@@ -34,5 +34,15 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.1.0",
     "webpack-node-externals": "^3.0.0"
-  }
+  },
+  "keywords": [
+    "jsdom",
+    "bundle",
+    "browserify",
+    "webpack",
+    "babel",
+    "node",
+    "npm",
+    "dom"
+  ]
 }
