@@ -1,4 +1,5 @@
-//require('./src/kid-gloves');
-require('./bundles/kid-bundle');
-//require('./dist/bundle.js');
-console.log(jsdom);
+void async function(){
+
+  await(await import('https://cdn.jsdelivr.net/npm/jsdom-bundle@1.0.6/bundles/gzimport.js')).jsdomImport;
+  console.log(jsdom);
+}();
