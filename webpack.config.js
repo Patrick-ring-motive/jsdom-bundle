@@ -3,9 +3,9 @@ const path = require("path");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 //const nodeExternals = require('webpack-node-externals');
 module.exports = {
-  entry: "./bundles/pre-index.js", // entry point for your application
+  entry: "./bundles/kid-index.js", // entry point for your application
   output: {
-    filename: "bundle.js", // output bundle file
+    filename: "es5-bundle.js", // output bundle file
     path: path.resolve(__dirname, "dist"), // output path
     clean: true, // cleans old files in dist on rebuild
   },
@@ -22,6 +22,10 @@ module.exports = {
           loader: "babel-loader", // transpile modern JavaScript for compatibility
           options: {
             presets: ["@babel/preset-env"],
+            plugins:[
+              "@babel/plugin-transform-arrow-functions",
+              "@babel/plugin-transform-block-scoping"
+              ]
           },
         },
       },

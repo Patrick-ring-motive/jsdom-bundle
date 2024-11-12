@@ -8,10 +8,20 @@
     "build": "webpack",
     "start": "webpack serve --open"
   },
-  "keywords": [],
+  "keywords": [
+    "jsdom",
+    "bundle",
+    "browserify",
+    "webpack",
+    "babel",
+    "node",
+    "npm",
+    "dom"
+  ],
   "author": "Patrick Ring <patrick.ring.motive@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "@babel/plugin-transform-arrow-functions": "^7.25.9",
     "@types/node": "^18.0.6",
     "jsdom": "^25.0.1"
   },
@@ -21,6 +31,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
+    "@babel/plugin-transform-block-scoping": "^7.25.9",
     "@babel/preset-env": "^7.26.0",
     "babel-loader": "^9.2.1",
     "babelify": "^10.0.0",
@@ -34,15 +45,5 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.1.0",
     "webpack-node-externals": "^3.0.0"
-  },
-  "keywords": [
-    "jsdom",
-    "bundle",
-    "browserify",
-    "webpack",
-    "babel",
-    "node",
-    "npm",
-    "dom"
-  ]
+  }
 }
