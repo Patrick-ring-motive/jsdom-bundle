@@ -1,4 +1,4 @@
-export const jsdomImport = globalThis.jsdom ?? (async function jsdomImport(){
+export const jsdomImport = globalThis.jsdom ?? (async function jsdomImport() {
   globalThis.pako ?? await import('https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js');
   const pako = globalThis.pako;
   const data = await fetch('https://raw.githubusercontent.com/Patrick-ring-motive/jsdom-bundle/refs/heads/main/bundles/kid-index.js.gz');

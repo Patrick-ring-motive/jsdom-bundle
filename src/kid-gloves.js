@@ -1,5 +1,4 @@
-
-void (function KidGloves() {
+void(function KidGloves() {
   const q = (varFn) => {
     try {
       return varFn?.();
@@ -11,10 +10,14 @@ void (function KidGloves() {
   }
 
   const globalObject = q(() => globalThis) // works in most modern runtimes
-    ?? q(() => self) // also works in most modern runtimes
-    ?? q(() => global) // fallback for older nodejs
-    ?? q(() => window) // fallback for older browsers
-    ?? this ?? {}; // fallbacks for edge cases.
+    ??
+    q(() => self) // also works in most modern runtimes
+    ??
+    q(() => global) // fallback for older nodejs
+    ??
+    q(() => window) // fallback for older browsers
+    ??
+    this ?? {}; // fallbacks for edge cases.
 
   for (let x of ['globalThis', 'self', 'global']) {
     globalObject[x] = globalObject;
@@ -55,6 +58,7 @@ void (function KidGloves() {
   };
 
   globalThis.create = (proto) => Object.create(proto);
+
   function assignAll(target, src) {
     let excepts = ["prototype", "constructor", "__proto__"];
     let enums = [];
@@ -100,7 +104,7 @@ void (function KidGloves() {
               continue;
             }
           }
-        } catch (e) { }
+        } catch (e) {}
       }
       if (source.add && source.keys) {
         try {
@@ -111,12 +115,13 @@ void (function KidGloves() {
               continue;
             }
           }
-        } catch { }
+        } catch {}
       }
       source = objGetProto(source);
     }
     return target;
   }
+
   function assignProto(target, src) {
     const proto = src?.prototype ?? Object(src);
     try {
@@ -124,7 +129,7 @@ void (function KidGloves() {
     } catch {
       try {
         target.prototype = proto;
-      } catch { }
+      } catch {}
       if (target.prototype != proto) {
         assignAll(target.prototype, proto);
       }
@@ -132,19 +137,21 @@ void (function KidGloves() {
   }
   Object.defineProperty(globalThis, "arguments", {
     get() {
-      try{
-      throw new Error('Attempting to retrieve arguments in the wrong context');
-      }catch(e){
+      try {
+        throw new Error('Attempting to retrieve arguments in the wrong context');
+      } catch (e) {
         console.warn(e);
       }
-      return (function args() { return arguments })();
+      return (function args() {
+        return arguments
+      })();
     },
     set(newValue) {
-      try{
+      try {
         throw new Error('Attempting to set arguments in the wrong context');
-        }catch(e){
-          console.warn(e);
-        }
+      } catch (e) {
+        console.warn(e);
+      }
     },
     enumerable: false,
     configurable: true,
@@ -152,30 +159,28 @@ void (function KidGloves() {
 
   Object.defineProperty(globalThis, "of", {
     get() {
-      try{
+      try {
         throw new Error('Attempting to call "of" in the wrong context');
-        }catch(e){
-          console.warn(e);
-        }
+      } catch (e) {
+        console.warn(e);
+      }
       return _ => _;
     },
-    set(newValue) {
-    },
+    set(newValue) {},
     enumerable: false,
     configurable: true,
   });
 
   Object.defineProperty(globalThis, "from", {
     get() {
-      try{
+      try {
         throw new Error('Attempting to call "from" in the wrong context');
-        }catch(e){
-          console.warn(e);
-        }
+      } catch (e) {
+        console.warn(e);
+      }
       return _ => _;
     },
-    set(newValue) {
-    },
+    set(newValue) {},
     enumerable: false,
     configurable: true,
   });
@@ -184,16 +189,26 @@ void (function KidGloves() {
     globalThis.BigInt = function BigInt(n) {
       const bigint = globalThis['&BigInt'](n);
       if (new.target) {
-        try{
+        try {
           throw new Error('Using BigInt with new is not recommended, use BigInt(n) instead');
-          }catch(e){
-            console.warn(e,this,new.target,...arguments);
-          }
-        objDefProp(this, 'toString', function toString() { return bigint.toString(...arguments); });
-        objDefProp(this, 'valueOf', function valueOf() { return bigint; });
-        objDefProp(this, 'toLocaleString', function toLocaleString() { return bigint.toLocaleString(...arguments); });
-        objDefProp(this, Symbol.toPrimitive, function toPrimitive() { return bigint; });
-        objDefProp(this, Symbol.toStringTag, function toStringTag() { return bigint.toString(); });
+        } catch (e) {
+          console.warn(e, this, new.target, ...arguments);
+        }
+        objDefProp(this, 'toString', function toString() {
+          return bigint.toString(...arguments);
+        });
+        objDefProp(this, 'valueOf', function valueOf() {
+          return bigint;
+        });
+        objDefProp(this, 'toLocaleString', function toLocaleString() {
+          return bigint.toLocaleString(...arguments);
+        });
+        objDefProp(this, Symbol.toPrimitive, function toPrimitive() {
+          return bigint;
+        });
+        objDefProp(this, Symbol.toStringTag, function toStringTag() {
+          return bigint.toString();
+        });
 
         Object.setPrototypeOf(this, globalThis['&BigInt'].prototype);
       }
@@ -209,16 +224,26 @@ void (function KidGloves() {
     globalThis.Symbol = function Symbol(s) {
       const symbol = globalThis['&Symbol'](s);
       if (new.target) {
-        try{
+        try {
           throw new Error('Using Symbol with new is not recommended, use Symbol() instead');
-          }catch(e){
-            console.warn(e,this,new.target,...arguments);
-          }
-        objDefProp(this, 'toString', function toString() { return symbol.toString(...arguments); });
-        objDefProp(this, 'valueOf', function valueOf() { return symbol; });
-        objDefProp(this, 'toLocaleString', function toLocaleString() { return symbol.toLocaleString(...arguments); });
-        objDefProp(this, Symbol.toPrimitive, function toPrimitive() { return symbol; });
-        objDefProp(this, Symbol.toStringTag, function toStringTag() { return symbol.toString(); });
+        } catch (e) {
+          console.warn(e, this, new.target, ...arguments);
+        }
+        objDefProp(this, 'toString', function toString() {
+          return symbol.toString(...arguments);
+        });
+        objDefProp(this, 'valueOf', function valueOf() {
+          return symbol;
+        });
+        objDefProp(this, 'toLocaleString', function toLocaleString() {
+          return symbol.toLocaleString(...arguments);
+        });
+        objDefProp(this, Symbol.toPrimitive, function toPrimitive() {
+          return symbol;
+        });
+        objDefProp(this, Symbol.toStringTag, function toStringTag() {
+          return symbol.toString();
+        });
         this.description = symbol.description;
         Object.setPrototypeOf(this, globalThis['&Symbol'].prototype);
       }
@@ -233,18 +258,28 @@ void (function KidGloves() {
     globalThis.Promise = function Promise() {
       const promise = new globalThis['&Promise'](...arguments);
       if (new.target) {
-        objDefProp(this, 'toString', function toString() { return promise.toString(...arguments); });
-        objDefProp(this, 'valueOf', function valueOf() { return promise; });
-        objDefProp(this, 'toLocaleString', function toLocaleString() { return promise.toLocaleString(...arguments); });
-        objDefProp(this, Symbol.toPrimitive, function toPrimitive() { return promise; });
-        objDefProp(this, Symbol.toStringTag, function toStringTag() { return promise.toString(); });
+        objDefProp(this, 'toString', function toString() {
+          return promise.toString(...arguments);
+        });
+        objDefProp(this, 'valueOf', function valueOf() {
+          return promise;
+        });
+        objDefProp(this, 'toLocaleString', function toLocaleString() {
+          return promise.toLocaleString(...arguments);
+        });
+        objDefProp(this, Symbol.toPrimitive, function toPrimitive() {
+          return promise;
+        });
+        objDefProp(this, Symbol.toStringTag, function toStringTag() {
+          return promise.toString();
+        });
         Object.setPrototypeOf(this, globalThis['&Promise'].prototype);
       } else {
-        try{
+        try {
           throw new Error('Using Promise without new is not recommended, use new Promise() instead');
-          }catch(e){
-            console.warn(e,this,new.target,...arguments);
-          }
+        } catch (e) {
+          console.warn(e, this, new.target, ...arguments);
+        }
       }
       return promise;
     }
@@ -258,15 +293,31 @@ void (function KidGloves() {
       let rex;
       try {
         if (new.target) {
-          rex = new (globalThis['&RegExp'])(...arguments);
-          objDefProp(this, 'toString', function toString() { return rex.toString(...arguments); });
-          objDefProp(this, 'valueOf', function valueOf() { return rex; });
-          objDefProp(this, 'toLocaleString', function toLocaleString() { return rex.toLocaleString(...arguments); });
-          objDefProp(this, Symbol.toPrimitive, function toPrimitive() { return rex; });
-          objDefProp(this, Symbol.toStringTag, function toStringTag() { return rex.toString(); });
-          objDefProp(this, 'hasOwnProperty', function hasOwnProperty() { return rex.hasOwnProperty(...arguments); });
-          objDefProp(this, 'isPrototypeOf', function isPrototypeOf() { return rex.isPrototypeOf(...arguments); });
-          objDefProp(this, 'propertyIsEnumerable', function propertyIsEnumerable() { return rex.propertyIsEnumerable(...arguments); });
+          rex = new(globalThis['&RegExp'])(...arguments);
+          objDefProp(this, 'toString', function toString() {
+            return rex.toString(...arguments);
+          });
+          objDefProp(this, 'valueOf', function valueOf() {
+            return rex;
+          });
+          objDefProp(this, 'toLocaleString', function toLocaleString() {
+            return rex.toLocaleString(...arguments);
+          });
+          objDefProp(this, Symbol.toPrimitive, function toPrimitive() {
+            return rex;
+          });
+          objDefProp(this, Symbol.toStringTag, function toStringTag() {
+            return rex.toString();
+          });
+          objDefProp(this, 'hasOwnProperty', function hasOwnProperty() {
+            return rex.hasOwnProperty(...arguments);
+          });
+          objDefProp(this, 'isPrototypeOf', function isPrototypeOf() {
+            return rex.isPrototypeOf(...arguments);
+          });
+          objDefProp(this, 'propertyIsEnumerable', function propertyIsEnumerable() {
+            return rex.propertyIsEnumerable(...arguments);
+          });
 
           for (let x of ['dotAll', 'flags', 'global', 'hasIndicies', 'ignoreCase', 'lastIndex', 'multiline', 'source', 'sticky', 'unicode', 'unicodeSets']) {
             rex.size && Object.defineProperty(this, x, {
@@ -280,25 +331,63 @@ void (function KidGloves() {
               configurable: true,
             });
           }
-          rex.compile && objDefProp(this, 'compile', function compile() { return rex.compile(...arguments); });
-          rex.exec && objDefProp(this, 'exec', function exec() { return rex.exec(...arguments); });
-          rex.test && objDefProp(this, 'test', function test() { return rex.test(...arguments); });
-          rex.clear && objDefProp(this, 'clear', function clear() { return rex.clear(...arguments); });
-          rex['delete'] && objDefProp(this, 'delete', function dеlеtе() { return rex['delete'](...arguments); });
-          rex.entries && objDefProp(this, 'entries', function entries() { return rex.entries(...arguments); });
-          rex.forEach && objDefProp(this, 'forEach', function forEach() { return rex.forEach(...arguments); });
-          rex.get && objDefProp(this, 'get', function get() { return rex.get(...arguments); });
-          rex.has && objDefProp(this, 'has', function has() { return rex.has(...arguments); });
-          rex.keys && objDefProp(this, 'keys', function keys() { return rex.keys(...arguments); });
-          rex.values && objDefProp(this, 'values', function values() { return rex.values(...arguments); });
-          rex.set && objDefProp(this, 'set', function set() { return rex.set(...arguments); });
-          rex[Symbol?.iterator] && objDefProp(this, Symbol?.iterator ?? 'iterator', function iterator() { return rex[Symbol.iterator](...arguments); });
-          rex[Symbol?.match] && objDefProp(this, Symbol?.match ?? 'match', function match() { return rex[Symbol.match](...arguments); });
-          rex[Symbol?.matchAll] && objDefProp(this, Symbol?.matchAll ?? 'matchAll', function matchAll() { return rex[Symbol.matchAll](...arguments); });
-          rex[Symbol?.replace] && objDefProp(this, Symbol?.replace ?? 'replace', function replace() { return rex[Symbol.replace](...arguments); });
-          rex[Symbol?.replaceAll] && objDefProp(this, Symbol?.replaceAll ?? 'replaceAll', function replaceAll() { return rex[Symbol.replaceAll](...arguments); });
-          rex[Symbol?.search] && objDefProp(this, Symbol?.search ?? 'search', function search() { return rex[Symbol.search](...arguments); });
-          rex[Symbol?.split] && objDefProp(this, Symbol?.split ?? 'split', function split() { return rex[Symbol.split](...arguments); });
+          rex.compile && objDefProp(this, 'compile', function compile() {
+            return rex.compile(...arguments);
+          });
+          rex.exec && objDefProp(this, 'exec', function exec() {
+            return rex.exec(...arguments);
+          });
+          rex.test && objDefProp(this, 'test', function test() {
+            return rex.test(...arguments);
+          });
+          rex.clear && objDefProp(this, 'clear', function clear() {
+            return rex.clear(...arguments);
+          });
+          rex['delete'] && objDefProp(this, 'delete', function dеlеtе() {
+            return rex['delete'](...arguments);
+          });
+          rex.entries && objDefProp(this, 'entries', function entries() {
+            return rex.entries(...arguments);
+          });
+          rex.forEach && objDefProp(this, 'forEach', function forEach() {
+            return rex.forEach(...arguments);
+          });
+          rex.get && objDefProp(this, 'get', function get() {
+            return rex.get(...arguments);
+          });
+          rex.has && objDefProp(this, 'has', function has() {
+            return rex.has(...arguments);
+          });
+          rex.keys && objDefProp(this, 'keys', function keys() {
+            return rex.keys(...arguments);
+          });
+          rex.values && objDefProp(this, 'values', function values() {
+            return rex.values(...arguments);
+          });
+          rex.set && objDefProp(this, 'set', function set() {
+            return rex.set(...arguments);
+          });
+          rex[Symbol?.iterator] && objDefProp(this, Symbol?.iterator ?? 'iterator', function iterator() {
+            return rex[Symbol.iterator](...arguments);
+          });
+          rex[Symbol?.match] && objDefProp(this, Symbol?.match ?? 'match', function match() {
+            return rex[Symbol.match](...arguments);
+          });
+          rex[Symbol?.matchAll] && objDefProp(this, Symbol?.matchAll ?? 'matchAll', function matchAll() {
+            return rex[Symbol.matchAll](...arguments);
+          });
+          rex[Symbol?.replace] && objDefProp(this, Symbol?.replace ?? 'replace', function replace() {
+            return rex[Symbol.replace](...arguments);
+          });
+          rex[Symbol?.replaceAll] && objDefProp(this, Symbol?.replaceAll ?? 'replaceAll', function replaceAll() {
+            return rex[Symbol.replaceAll](...arguments);
+          });
+          rex[Symbol?.search] && objDefProp(this, Symbol?.search ?? 'search', function search() {
+            return rex[Symbol.search](...arguments);
+          });
+          rex[Symbol?.split] && objDefProp(this, Symbol?.split ?? 'split', function split() {
+            return rex[Symbol.split](...arguments);
+          });
 
           Object.setPrototypeOf(this, globalThis['&RegExp'].prototype);
         } else {
@@ -319,11 +408,21 @@ void (function KidGloves() {
     globalThis.Map = function Map() {
       const map = new globalThis['&Map'](...arguments);
       if (new.target) {
-        objDefProp(this, 'toString', function toString() { return map.toString(...arguments); });
-        objDefProp(this, 'valueOf', function valueOf() { return map; });
-        objDefProp(this, 'toLocaleString', function toLocaleString() { return map.toLocaleString(...arguments); });
-        objDefProp(this, Symbol.toPrimitive, function toPrimitive() { return map; });
-        objDefProp(this, Symbol.toStringTag, function toStringTag() { return map.toString(); });
+        objDefProp(this, 'toString', function toString() {
+          return map.toString(...arguments);
+        });
+        objDefProp(this, 'valueOf', function valueOf() {
+          return map;
+        });
+        objDefProp(this, 'toLocaleString', function toLocaleString() {
+          return map.toLocaleString(...arguments);
+        });
+        objDefProp(this, Symbol.toPrimitive, function toPrimitive() {
+          return map;
+        });
+        objDefProp(this, Symbol.toStringTag, function toStringTag() {
+          return map.toString();
+        });
         map.size && Object.defineProperty(this, "size", {
           get() {
             return map.size;
@@ -334,16 +433,36 @@ void (function KidGloves() {
           enumerable: true,
           configurable: true,
         });
-        map.clear && objDefProp(this, 'clear', function clear() { return map.clear(...arguments); });
-        map['delete'] && objDefProp(this, 'delete', function dеlеtе() { return map['delete'](...arguments); });
-        map.entries && objDefProp(this, 'entries', function entries() { return map.entries(...arguments); });
-        map.forEach && objDefProp(this, 'forEach', function forEach() { return map.forEach(...arguments); });
-        map.get && objDefProp(this, 'get', function get() { return map.get(...arguments); });
-        map.has && objDefProp(this, 'has', function has() { return map.has(...arguments); });
-        map.keys && objDefProp(this, 'keys', function keys() { return map.keys(...arguments); });
-        map.values && objDefProp(this, 'values', function values() { return map.values(...arguments); });
-        map.set && objDefProp(this, 'set', function set() { return map.set(...arguments); });
-        map[Symbol?.iterator] && objDefProp(this, Symbol?.iterator ?? 'iterator', function iterator() { return map[Symbol.iterator](...arguments); });
+        map.clear && objDefProp(this, 'clear', function clear() {
+          return map.clear(...arguments);
+        });
+        map['delete'] && objDefProp(this, 'delete', function dеlеtе() {
+          return map['delete'](...arguments);
+        });
+        map.entries && objDefProp(this, 'entries', function entries() {
+          return map.entries(...arguments);
+        });
+        map.forEach && objDefProp(this, 'forEach', function forEach() {
+          return map.forEach(...arguments);
+        });
+        map.get && objDefProp(this, 'get', function get() {
+          return map.get(...arguments);
+        });
+        map.has && objDefProp(this, 'has', function has() {
+          return map.has(...arguments);
+        });
+        map.keys && objDefProp(this, 'keys', function keys() {
+          return map.keys(...arguments);
+        });
+        map.values && objDefProp(this, 'values', function values() {
+          return map.values(...arguments);
+        });
+        map.set && objDefProp(this, 'set', function set() {
+          return map.set(...arguments);
+        });
+        map[Symbol?.iterator] && objDefProp(this, Symbol?.iterator ?? 'iterator', function iterator() {
+          return map[Symbol.iterator](...arguments);
+        });
         Object.setPrototypeOf(this, globalThis['&Map'].prototype);
       } else {
         console.warn('Using Map without new is not recommended, use new Map() instead');
@@ -352,7 +471,6 @@ void (function KidGloves() {
     }
     assignProto(Map, globalThis['&Map']);
     Object.setPrototypeOf(Map, globalThis['&Map']);
-
 
   }
 
@@ -377,11 +495,21 @@ void (function KidGloves() {
     globalThis.Set = function Set() {
       const set = new globalThis['&Set'](...arguments);
       if (new.target) {
-        objDefProp(this, 'toString', function toString() { return set.toString(...arguments); });
-        objDefProp(this, 'valueOf', function valueOf() { return set; });
-        objDefProp(this, 'toLocaleString', function toLocaleString() { return set.toLocaleString(...arguments); });
-        objDefProp(this, Symbol.toPrimitive, function toPrimitive() { return set; });
-        objDefProp(this, Symbol.toStringTag, function toStringTag() { return set.toString(); });
+        objDefProp(this, 'toString', function toString() {
+          return set.toString(...arguments);
+        });
+        objDefProp(this, 'valueOf', function valueOf() {
+          return set;
+        });
+        objDefProp(this, 'toLocaleString', function toLocaleString() {
+          return set.toLocaleString(...arguments);
+        });
+        objDefProp(this, Symbol.toPrimitive, function toPrimitive() {
+          return set;
+        });
+        objDefProp(this, Symbol.toStringTag, function toStringTag() {
+          return set.toString();
+        });
         set.size && Object.defineProperty(this, "size", {
           get() {
             return set.size;
@@ -392,24 +520,60 @@ void (function KidGloves() {
           enumerable: true,
           configurable: true,
         });
-        set.clear && objDefProp(this, 'clear', function clear() { return set.clear(...arguments); });
-        set['delete'] && objDefProp(this, 'delete', function dеlеtе() { return set['delete'](...arguments); });
-        set.entries && objDefProp(this, 'entries', function entries() { return set.entries(...arguments); });
-        set.forEach && objDefProp(this, 'forEach', function forEach() { return set.forEach(...arguments); });
-        set.get && objDefProp(this, 'get', function get() { return set.get(...arguments); });
-        set.has && objDefProp(this, 'has', function has() { return set.has(...arguments); });
-        set.keys && objDefProp(this, 'keys', function keys() { return set.keys(...arguments); });
-        set.values && objDefProp(this, 'values', function values() { return set.values(...arguments); });
-        set.set && objDefProp(this, 'set', function set() { return set.set(...arguments); });
-        set[Symbol?.iterator] && objDefProp(this, Symbol?.iterator ?? 'iterator', function iterator() { return set[Symbol.iterator](...arguments); });
-        set.add && objDefProp(this, 'add', function add() { return set.add(...arguments); });
-        set.difference && objDefProp(this, 'difference', function difference() { return set.difference(...arguments); });
-        set.intersection && objDefProp(this, 'intersection', function intersection() { return set.intersection(...arguments); });
-        set.isDisjointFrom && objDefProp(this, 'isDisjointFrom', function isDisjointFrom() { return set.isDisjointFrom(...arguments); });
-        set.isSubsetOf && objDefProp(this, 'isSubsetOf', function isSubsetOf() { return set.isSubsetOf(...arguments); });
-        set.isSupersetOf && objDefProp(this, 'isSupersetOf', function isSupersetOf() { return set.isSupersetOf(...arguments); });
-        set.symmetricDifference && objDefProp(this, 'symmetricDifference', function symmetricDifference() { return set.symmetricDifference(...arguments); });
-        set.union && objDefProp(this, 'union', function union() { return set.union(...arguments); });
+        set.clear && objDefProp(this, 'clear', function clear() {
+          return set.clear(...arguments);
+        });
+        set['delete'] && objDefProp(this, 'delete', function dеlеtе() {
+          return set['delete'](...arguments);
+        });
+        set.entries && objDefProp(this, 'entries', function entries() {
+          return set.entries(...arguments);
+        });
+        set.forEach && objDefProp(this, 'forEach', function forEach() {
+          return set.forEach(...arguments);
+        });
+        set.get && objDefProp(this, 'get', function get() {
+          return set.get(...arguments);
+        });
+        set.has && objDefProp(this, 'has', function has() {
+          return set.has(...arguments);
+        });
+        set.keys && objDefProp(this, 'keys', function keys() {
+          return set.keys(...arguments);
+        });
+        set.values && objDefProp(this, 'values', function values() {
+          return set.values(...arguments);
+        });
+        set.set && objDefProp(this, 'set', function set() {
+          return set.set(...arguments);
+        });
+        set[Symbol?.iterator] && objDefProp(this, Symbol?.iterator ?? 'iterator', function iterator() {
+          return set[Symbol.iterator](...arguments);
+        });
+        set.add && objDefProp(this, 'add', function add() {
+          return set.add(...arguments);
+        });
+        set.difference && objDefProp(this, 'difference', function difference() {
+          return set.difference(...arguments);
+        });
+        set.intersection && objDefProp(this, 'intersection', function intersection() {
+          return set.intersection(...arguments);
+        });
+        set.isDisjointFrom && objDefProp(this, 'isDisjointFrom', function isDisjointFrom() {
+          return set.isDisjointFrom(...arguments);
+        });
+        set.isSubsetOf && objDefProp(this, 'isSubsetOf', function isSubsetOf() {
+          return set.isSubsetOf(...arguments);
+        });
+        set.isSupersetOf && objDefProp(this, 'isSupersetOf', function isSupersetOf() {
+          return set.isSupersetOf(...arguments);
+        });
+        set.symmetricDifference && objDefProp(this, 'symmetricDifference', function symmetricDifference() {
+          return set.symmetricDifference(...arguments);
+        });
+        set.union && objDefProp(this, 'union', function union() {
+          return set.union(...arguments);
+        });
         Object.setPrototypeOf(this, globalThis['&Set'].prototype);
       } else {
         console.warn('Using Set without new is not recommended, use new Set() instead');
@@ -508,10 +672,7 @@ void (function KidGloves() {
         return this.getElementsByTagName?.(query)?.[0] ?? null;
       });
 
-
     }
-
-
 
     if (globalThis[nodeType]?.prototype?.getElementsByClassName && !globalThis[nodeType]?.prototype?.['&getElementsByClassName']) {
       objDefProp(globalThis[nodeType].prototype, '&getElementsByClassName', globalThis[nodeType].prototype.getElementsByClassName);
@@ -533,10 +694,7 @@ void (function KidGloves() {
         return this.getElementsByClassName?.(query)?.[0] ?? null;
       });
 
-
     }
-
-
 
     if (globalThis[nodeType]?.prototype?.getElementsByTagNameNS && !globalThis[nodeType]?.prototype?.['&getElementsByTagNameNS']) {
       objDefProp(globalThis[nodeType].prototype, '&getElementsByTagNameNS', globalThis[nodeType].prototype.getElementsByTagNameNS);
@@ -760,7 +918,8 @@ void (function KidGloves() {
         }
       }
     });
-  } if (Object.freeze && !Object['&freeze']) {
+  }
+  if (Object.freeze && !Object['&freeze']) {
     objDefProp(Object, '&freeze', Object.freeze);
     objDefProp(Object, 'freeze', function freeze(obj) {
       try {
@@ -958,10 +1117,9 @@ void (function KidGloves() {
         return globalThis.Object['&getPrototypeOf'](obj);
       } catch (e) {
         console.warn(e);
-          return globalThis.Object['&getPrototypeOf'](Object(obj));
+        return globalThis.Object['&getPrototypeOf'](Object(obj));
       }
     });
   }
 
-  
 })();

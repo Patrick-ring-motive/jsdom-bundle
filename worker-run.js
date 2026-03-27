@@ -9,4 +9,6 @@ request.open("GET", "https://raw.githubusercontent.com/Patrick-ring-motive/jsdom
 request.send(null);
 eval?.(pako.inflate(request.response,{to:'string'}));
 console.log(jsdom);
-`],{'Content-Type':'text/javascript'})));
+`], {
+  'Content-Type': 'text/javascript'
+})));
